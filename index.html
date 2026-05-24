@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1220" />
+  <title>Håkons vanskelige skivalg</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero card glass">
+      <div class="eyebrow">GitHub Pages-versjon</div>
+      <h1>⛷️ Håkons vanskelige skivalg</h1>
+      <p class="lead">Velg bakke og forhold, finjuster stil, nivå og svingprofil – og få anbefalt ski, topp 3 og full ranking med produktlenker.</p>
+      <div class="hero-actions">
+        <button id="resetBtn" class="btn btn-secondary" type="button">Tilbakestill</button>
+        <button id="shareStateBtn" class="btn btn-primary" type="button">Kopier delbar lenke</button>
+      </div>
+    </header>
+
+    <main class="grid-layout">
+      <section class="card glass controls-panel">
+        <div class="section-header">
+          <h2>🎛️ Bakke og forhold</h2>
+          <p>Modellen regner direkte i nettleseren og oppdaterer resultatene med én gang.</p>
+        </div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="slope">Løype</label>
+            <select id="slope"></select>
+          </div>
+          <div class="field">
+            <label for="width">Trasebredde</label>
+            <select id="width"></select>
+          </div>
+          <div class="field">
+            <label for="snow">Snow conditions</label>
+            <select id="snow"></select>
+          </div>
+          <div class="field">
+            <label for="style">Riding style</label>
+            <select id="style"></select>
+          </div>
+          <div class="field">
+            <label for="skill">Skill level</label>
+            <select id="skill"></select>
+          </div>
+          <div class="field">
+            <label for="turn">Turn shape</label>
+            <select id="turn"></select>
+          </div>
+        </div>
+        <div id="skillHint" class="hint ok">✅ Alle vanlige skill-nivåer er tilgjengelige for valgt stil.</div>
+      </section>
+
+      <section class="card glass winner-panel">
+        <div class="section-header compact">
+          <h2>🏆 Beste match akkurat nå</h2>
+          <p id="winnerContextLine">–</p>
+        </div>
+        <div class="winner-block">
+          <div>
+            <div class="winner-label">Anbefalt ski</div>
+            <div id="winnerName" class="winner-name">–</div>
+            <div id="winnerMeta" class="muted">–</div>
+          </div>
+          <div class="score-pill-wrap">
+            <div class="score-label">Score</div>
+            <div id="winnerScore" class="score-pill">–</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Ideell carvingprofil</div>
+            <div id="idealCarving" class="stat-value">–</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Bratthet / bredde</div>
+            <div id="slopeWidthProfile" class="stat-value">–</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Bakkelogikk</div>
+            <div id="logicText" class="stat-text">–</div>
+          </div>
+        </div>
+
+        <div class="meter-list">
+          <div class="meter-row">
+            <span>Turn</span><div class="meter"><span id="barTurn"></span></div><strong id="valTurn">–</strong>
+          </div>
+          <div class="meter-row">
+            <span>Snø</span><div class="meter"><span id="barSnow"></span></div><strong id="valSnow">–</strong>
+          </div>
+          <div class="meter-row">
+            <span>Stil</span><div class="meter"><span id="barStyle"></span></div><strong id="valStyle">–</strong>
+          </div>
+          <div class="meter-row">
+            <span>Ferdighet</span><div class="meter"><span id="barSkill"></span></div><strong id="valSkill">–</strong>
+          </div>
+          <div class="meter-row">
+            <span>Bakke</span><div class="meter"><span id="barBakke"></span></div><strong id="valBakke">–</strong>
+          </div>
+        </div>
+
+        <div class="winner-links">
+          <a id="winnerLink" class="btn btn-primary" href="#" target="_blank" rel="noopener">Åpne produktlenke</a>
+        </div>
+      </section>
+
+      <section class="card glass explanation-panel full-width">
+        <div class="section-header compact">
+          <h2>📝 Hvorfor denne skien vant</h2>
+          <p>Oppsummeringen nedenfor er bygget fra modellens valg og scorekort.</p>
+        </div>
+        <pre id="whyWinner" class="explanation-text"></pre>
+      </section>
+
+      <section class="card glass top3-panel full-width">
+        <div class="section-header compact">
+          <h2>🖼️ Topp 3 anbefalinger</h2>
+          <p>De tre beste matchene vist som egne kort.</p>
+        </div>
+        <div id="topCards" class="top-cards"></div>
+      </section>
+
+      <section class="card glass ranking-panel full-width">
+        <div class="section-header compact">
+          <h2>📊 Rangert oversikt over alle ski</h2>
+          <p>Sorter, søk og se full score per modell.</p>
+        </div>
+        <div class="toolbar">
+          <input id="search" type="search" placeholder="Søk etter modell, merke eller tekst…" />
+          <div class="toolbar-actions">
+            <button id="show5" class="btn btn-secondary small" type="button">Topp 5</button>
+            <button id="show10" class="btn btn-secondary small" type="button">Topp 10</button>
+            <button id="showAll" class="btn btn-secondary small active" type="button">Alle</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Ski</th>
+                <th>Lengde</th>
+                <th>Score</th>
+                <th>Radius (m)</th>
+                <th>Midje (mm)</th>
+                <th>Kort begrunnelse</th>
+                <th>Bilde / produkt</th>
+              </tr>
+            </thead>
+            <tbody id="rankingBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
